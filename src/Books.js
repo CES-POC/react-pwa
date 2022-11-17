@@ -23,7 +23,7 @@ export const Products = () => {
     <div className='container text-center'>
       <div className='row align-items-start'>
         {users.map((res) => (
-          <div className='card col-3'>
+          <div className='card col-3' key={res.id}>
             <img src={res.thumbnail} className='card-img-top' alt='' />
             <div className='card-body'>{res.title}</div>
           </div>
