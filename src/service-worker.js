@@ -80,7 +80,7 @@ registerRoute(
 );
 
 registerRoute(
-  ({ url }) => url.origin === 'https://fonts.gstatic.com',
+  ({ url }) => url.origin === 'https://fonts.googleapis.com',
   new CacheFirst({
     cacheName: 'google-fonts-webfonts',
     plugins: [
@@ -98,12 +98,40 @@ registerRoute(
 registerRoute(
   ({ url }) => url.origin === 'https://dummyjson.com' && url.pathname.startsWith('/products'),
   new StaleWhileRevalidate({
-    cacheName: 'api-response',
+    cacheName: 'api-products',
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
-      new ExpirationPlugin({ maxEntries: 1 }), // Will cache maximum 1 requests.
+      new ExpirationPlugin({ maxEntries: 1000 }),
+    ],
+  })
+);
+registerRoute(
+  ({ url }) => url.origin === 'https://dummyjson.com' && url.pathname.startsWith('/users'),
+  new StaleWhileRevalidate({
+    cacheName: 'api-users',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({ maxEntries: 1000 }),
+    ],
+  })
+);
+
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'images',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 1000,
+        maxAgeSeconds: 30 * 24 * 60 * 60,
+      }),
     ],
   })
 );
