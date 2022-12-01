@@ -48,11 +48,7 @@ function App() {
     fetchData();
     fetchUsers();
     fetchCity();
-    const interval = setTimeout(() => fetchData(), fetchUsers(), 100);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [fetchData, fetchUsers]);
+  }, [fetchData, fetchUsers, fetchCity]);
 
   return (
     <div className='App'>
