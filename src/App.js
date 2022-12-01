@@ -4,18 +4,29 @@ import { Products } from './Products';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { Users } from './Users';
 import axios from 'axios';
+import { City } from './City';
 const baseUrl = 'https://dummyjson.com';
 
 function App() {
   const [products, setProducts] = useState([]);
   const [users, setusers] = useState([]);
+  const [city, setCity] = useState([]);
 
   const fetchUsers = useCallback(() => {
     axios
       .get(`${baseUrl}/users?limit=100`)
       .then((response) => {
-        console.log(response.data.users);
         setusers(response.data.users);
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  }, []);
+  const fetchCity = useCallback(() => {
+    axios
+      .get('https://www.fishwatch.gov/api/species')
+      .then((response) => {
+        setCity(response.data);
       })
       .catch((errors) => {
         console.log(errors);
@@ -36,6 +47,7 @@ function App() {
   useEffect(() => {
     fetchData();
     fetchUsers();
+    fetchCity();
     const interval = setTimeout(() => fetchData(), fetchUsers(), 100);
     return () => {
       clearInterval(interval);
@@ -58,11 +70,17 @@ function App() {
                   Users
                 </Link>
               </li>
+              <li className='nav-item'>
+                <Link className='nav-link  ' to='/city'>
+                  City
+                </Link>
+              </li>
             </ul>
           </nav>
           <Routes>
             <Route index path='/' element={<Products props={products} />} />
             <Route index path='/users' element={<Users props={users} />} />
+            <Route index path='/city' element={<City props={city} />} />
           </Routes>
         </Suspense>
       </Router>

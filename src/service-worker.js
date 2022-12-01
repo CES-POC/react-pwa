@@ -119,6 +119,19 @@ registerRoute(
     ],
   })
 );
+registerRoute(
+  ({ url }) =>
+    url.origin === 'https://www.fishwatch.gov/api' && url.pathname.startsWith('/species'),
+  new StaleWhileRevalidate({
+    cacheName: 'api-species',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({ maxEntries: 1000 }),
+    ],
+  })
+);
 
 registerRoute(
   ({ request }) => request.destination === 'image',
