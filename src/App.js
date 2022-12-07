@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { Users } from './Users';
 import axios from 'axios';
 import { City } from './City';
+import { getData } from './FileAccessApi';
 const baseUrl = 'https://dummyjson.com';
 
 function App() {
@@ -23,8 +24,10 @@ function App() {
       });
   }, []);
   const fetchCity = useCallback(() => {
+    // axios
+    //   .get('https://www.fishwatch.gov/api/species')
     axios
-      .get('https://www.fishwatch.gov/api/species')
+      .get('https://api.imgflip.com/get_memes')
       .then((response) => {
         setCity(response.data);
       })
@@ -43,7 +46,7 @@ function App() {
         console.log(errors);
       });
   }, []);
-
+  console.log(getData());
   useEffect(() => {
     fetchData();
     fetchUsers();

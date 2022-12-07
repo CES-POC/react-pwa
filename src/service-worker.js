@@ -120,8 +120,7 @@ registerRoute(
   })
 );
 registerRoute(
-  ({ url }) =>
-    url.origin === 'https://www.fishwatch.gov/api' && url.pathname.startsWith('/species'),
+  ({ url }) => url.origin === 'https://api.imgflip.com' && url.pathname.startsWith('/get_memes'),
   new StaleWhileRevalidate({
     cacheName: 'api-species',
     plugins: [
