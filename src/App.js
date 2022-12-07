@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { Users } from './Users';
 import axios from 'axios';
 import { City } from './City';
-import { getData } from './FileAccessApi';
 const baseUrl = 'https://dummyjson.com';
 
 function App() {
@@ -46,7 +45,7 @@ function App() {
         console.log(errors);
       });
   }, []);
-  console.log(getData());
+
   useEffect(() => {
     fetchData();
     fetchUsers();
